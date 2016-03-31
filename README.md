@@ -1,4 +1,5 @@
 # Serilog.Sinks.Slack
+[![Build status](https://ci.appveyor.com/api/projects/status/x87gr2jgnjvow6oo/branch/master?svg=true)](https://ci.appveyor.com/project/marcio-azevedo/serilog-sinks-slack/branch/master)
 
 A Serilog sink that writes events as messages to [Slack](https://slack.com). Slack client was developed in [F#](http://fsharp.org/).
 
