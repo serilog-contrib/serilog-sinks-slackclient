@@ -24,7 +24,7 @@ deploy:
 - provider: NuGet
   api_key:
     secure: vezTJ3PuB3zTp5IHFUDDL4kQm9NRXHeuBqQCVlfx1CbBBTHZ5iuLEbchqqGTeFQ+
-  skip_symbols: false
+  skip_symbols: true
 notifications:
 - provider: Slack
   auth_token:
