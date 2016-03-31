@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Serilog.Sinks.SlackClient</id>
+    <version>$version$</version>
+    <authors>https://github.com/marcio-azevedo/</authors>
+    <description>A Slack Sink for Serilog.</description>
+    <language>en-US</language>
+    <projectUrl>http://serilog.net</projectUrl>
+    <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+    <iconUrl>http://serilog.net/images/serilog-sink-nuget.png</iconUrl>
+    <tags>slack sink serilog logging error</tags>
+    <dependencies>
+      <dependency id="FSharp.Core" version="4.0.0.1" />
+      <dependency id="FSharp.Data" version="2.2.5" />
+      <dependency id="Serilog" version="1.5.14" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\$configuration$\Serilog.Sinks.Slack.dll" target="lib\net451" />
+    <file src="bin\$configuration$\Serilog.Sinks.Slack.pdb" target="lib\net451" />
+    <file src="bin\$configuration$\Serilog.Sinks.Slack.xml" target="lib\net451" />
+    <file src="bin\$configuration$\SlackClient.dll" target="lib\net451" />
+    <file src="bin\$configuration$\SlackClient.pdb" target="lib\net451" />
+    <file src="bin\$configuration$\SlackClient.xml" target="lib\net451" />  
+  </files>
+</package>
