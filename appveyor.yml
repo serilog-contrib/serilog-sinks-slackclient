@@ -24,9 +24,12 @@ deploy:
 - provider: NuGet
   api_key:
     secure: vezTJ3PuB3zTp5IHFUDDL4kQm9NRXHeuBqQCVlfx1CbBBTHZ5iuLEbchqqGTeFQ+
+  skip_symbols: false
 notifications:
 - provider: Slack
-  incoming_webhook: https://prototypeideas.slack.com/messages/appveyor-builds/
+  auth_token:
+    secure: q0TDncVz8udzeG+E903TpQ/+QBa17EahyfIcjr4uJDnvazhuPFzPLbAPoXfZrluP6RSJ9u7MPVL1qZbbVu1qcA==
+  channel: appveyorbuilds
   on_build_success: false
   on_build_failure: true
   on_build_status_changed: false
