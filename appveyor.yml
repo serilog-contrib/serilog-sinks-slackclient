@@ -27,9 +27,7 @@ deploy:
   skip_symbols: true
 notifications:
 - provider: Slack
-  auth_token:
-    secure: q0TDncVz8udzeG+E903TpQ/+QBa17EahyfIcjr4uJDnvazhuPFzPLbAPoXfZrluP6RSJ9u7MPVL1qZbbVu1qcA==
-  channel: appveyorbuilds
+  incoming_webhook: https://hooks.slack.com/services/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
   on_build_success: false
   on_build_failure: true
   on_build_status_changed: false
