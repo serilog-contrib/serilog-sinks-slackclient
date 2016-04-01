@@ -50,4 +50,4 @@ For more information about the default render function take a look to:
 string RenderMessage(LogEvent logEvent)
 ```
 
-at [SlackSink.cs](\src\Serilog.Sinks.Slack\Sinks\Slack\SlackSink.cs)
+at [SlackSink.cs](/src/Serilog.Sinks.Slack/Sinks/Slack/SlackSink.cs)
