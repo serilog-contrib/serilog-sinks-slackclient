@@ -13,6 +13,9 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
+using System.Dynamic;
+using System.Linq;
 using Serilog.Core;
 using Serilog.Debugging;
 using Serilog.Events;
@@ -57,8 +60,10 @@ namespace Serilog.Sinks.Slack
         ///     Construct a sink posting to the specified Slack Channel.
         /// </summary>
         /// <param name="channels">Slack Channel list.</param>
+        /// <param name="renderMessageImplementation">Optional delegate to build json to send to slack webhook. By default uses <see cref="RenderMessage"/>.</param>
         /// <param name="formatProvider">FormatProvider to apply to <see cref="LogEvent.RenderMessage(IFormatProvider)"/>.</param>
         public SlackSink(SlackChannelCollection channels,
+            SlackSink.RenderMessageMethod renderMessageImplementation,
                                IFormatProvider formatProvider)
         {
             if (channels == null)
@@ -66,10 +71,43 @@ namespace Serilog.Sinks.Slack
 
             FormatProvider = formatProvider;
             Channels = channels;
+            RenderMessageImplementation = renderMessageImplementation ?? RenderMessage;
 
             if (Channels.Count == 0)
                 SelfLog.WriteLine("There are 0 Slack channels defined. Slack sink will not send messages.");
         }
+
+        /// <summary>
+        ///     Construct a sink posting to the specified Slack Channel.
+        /// </summary>
+        /// <param name="webhookUri">WebHook Uri that allows Slack Incoming Webhooks (https://api.slack.com/incoming-webhooks).</param>
+        /// <param name="renderMessageImplementation">Optional delegate to build json to send to slack webhook. By default uses <see cref="RenderMessage"/>.</param>
+        /// <param name="formatProvider">FormatProvider to apply to <see cref="LogEvent.RenderMessage(IFormatProvider)"/>.</param>
+        public SlackSink(string webhookUri,
+            SlackSink.RenderMessageMethod renderMessageImplementation,
+                               IFormatProvider formatProvider)
+        {
+            if (string.IsNullOrWhiteSpace(webhookUri))
+                throw new ArgumentNullException("webhookUri");
+
+            FormatProvider = formatProvider;
+            Channels.Add(new SlackChannel(webhookUri));
+            RenderMessageImplementation = renderMessageImplementation ?? RenderMessage;
+            ;
+
+            if (Channels.Count == 0)
+                SelfLog.WriteLine("There are 0 Slack channels defined. Slack sink will not send messages.");
+        }
+
+        /// <summary>
+        /// Delegate to allow overriding of the RenderMessage method.
+        /// </summary>
+        public delegate string RenderMessageMethod(LogEvent input);
+
+        /// <summary>
+        /// RenderMessage method that will transform LogEvent into a Slack message.
+        /// </summary>
+        protected RenderMessageMethod RenderMessageImplementation = RenderMessage;
 
         #region ILogEventSink implementation
 
@@ -77,8 +115,8 @@ namespace Serilog.Sinks.Slack
         {
             foreach (var item in Channels)
             {
-                var message = (FormatProvider != null) ? logEvent.RenderMessage(FormatProvider) : logEvent.RenderMessage();
-
+                // FormatProvider overrides default behaviour
+                var message = (FormatProvider != null) ? logEvent.RenderMessage(FormatProvider) : RenderMessageImplementation(logEvent);
 
                 if (item.UsesWebhooks)
                 {
@@ -93,32 +131,13 @@ namespace Serilog.Sinks.Slack
 
         #endregion
 
-        protected string GetMessage(LogEvent logEvent)
+        protected static string RenderMessage(LogEvent logEvent)
         {
-            var message = string.Empty;
-            // """ {"text": "*Level*                *Timestamp*\n\nVerbose         31/03/2016 10:00:00 ", 
-            // "username": "mybot", "icon_url": "https://slack.com/img/icons/app-57.png", "icon_emoji": ":ghost:"} """
-            // "attachments":[{"fallback":"New open task [Urgent]: ","pretext":"New open task [Urgent]: ","color":"#D00000","fields":[{"title":"Notes","value":"This is much easier than I thought it would be.","short":false}]}]
+            dynamic body = new ExpandoObject();
+            body.text = logEvent.RenderMessage();
+            body.attachments = WrapInAttachment(logEvent).ToArray();
 
-            switch (logEvent.Level)
-            {
-                case LogEventLevel.Debug:
-                    break;
-                case LogEventLevel.Information:
-                    break;
-                case LogEventLevel.Verbose:
-                    break;
-                case LogEventLevel.Warning:
-                    break;
-                case LogEventLevel.Error:
-                    break;
-                case LogEventLevel.Fatal:
-                    break;
-                default:
-                    break;
-            }
-
-            return message;
+            return Newtonsoft.Json.JsonConvert.SerializeObject(body);
         }
 
         protected void SendMessageWithChannelIdAndToken(string token, string channelId, string message)
@@ -141,6 +160,66 @@ namespace Serilog.Sinks.Slack
             {
                 SelfLog.WriteLine("Message sent to webhook '{0}': '{1}'.", webhookUri, sendMessageResult);
             }
+        }
+
+        protected static string GetAttachmentColor(LogEventLevel level)
+        {
+            switch (level)
+            {
+                case LogEventLevel.Information:
+                    return "#5bc0de";
+                case LogEventLevel.Warning:
+                    return "#f0ad4e";
+                case LogEventLevel.Error:
+                case LogEventLevel.Fatal:
+                    return "#d9534f";
+                default:
+                    return "#777";
+            }
+        }
+
+        protected static object CreateAttachmentField(string title, string value, bool @short = true)
+        {
+            return new { title, value, @short };
+        }
+
+        protected static object WrapInAttachment(Exception ex)
+        {
+            return new
+            {
+                title = "Exception",
+                fallback = string.Format("Exception: {0} \n {1}", ex.Message, ex.StackTrace),
+                color = GetAttachmentColor(LogEventLevel.Fatal),
+                fields = new[]
+                {
+                    CreateAttachmentField("Message", ex.Message),
+                    CreateAttachmentField("Type", "`"+ex.GetType().Name+"`"),
+                    CreateAttachmentField("Stack Trace", "```"+ex.StackTrace+"```", false)
+                },
+                mrkdwn_in = new[] { "fields" }
+            };
+        }
+
+        protected static IEnumerable<dynamic> WrapInAttachment(LogEvent log)
+        {
+            var result = new List<dynamic>
+            {
+                new
+                {
+                    fallback = string.Format("[{0}]{1}", log.Level, log.RenderMessage()),
+                    color = GetAttachmentColor(log.Level),
+                    fields = new[]
+                    {
+                        CreateAttachmentField("Level", log.Level.ToString()),
+                        CreateAttachmentField("Timestamp", log.Timestamp.ToString())
+                    }
+                }
+            };
+
+            if (log.Exception != null)
+                result.Add(WrapInAttachment(log.Exception));
+
+            return result;
         }
     }
 }

@@ -22,3 +22,32 @@ Example:
 
 ![Simple Message](/assets/message01.png)
 
+Other option is to use [incoming webhooks](https://api.slack.com/incoming-webhooks):
+
+```csharp
+var log = new LoggerConfiguration()
+	.WriteTo.Slack("https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX")
+	.CreateLogger();
+log.Fatal("This is an fatal message!");
+```
+
+Example:
+
+![Simple Message](/assets/message02.png)
+
+To change the default renderization pass a delegate as an additional parameter:
+
+```csharp
+var log = new LoggerConfiguration()
+	.WriteTo.Slack("https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX",
+                (LogEvent l) => l.RenderMessage())
+	.CreateLogger();
+```
+
+For more information about the default render function take a look to:
+
+```csharp
+string RenderMessage(LogEvent logEvent)
+```
+
+at [SlackSink.cs](\src\Serilog.Sinks.Slack\Sinks\Slack\SlackSink.cs)

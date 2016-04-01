@@ -14,7 +14,15 @@
       <dependency id="FSharp.Core" version="4.0.0.1" />
       <dependency id="FSharp.Data" version="2.2.5" />
       <dependency id="Serilog" version="1.5.14" />
+      <dependency id="Newtonsoft.Json" version="8.0.3" />
     </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="Microsoft.CSharp" targetFramework="net40" />
+      <frameworkAssembly assemblyName="System" targetFramework="net40" />
+      <frameworkAssembly assemblyName="System.Configuration" targetFramework="net40" />
+      <frameworkAssembly assemblyName="System.Net" targetFramework="net40" />
+      <frameworkAssembly assemblyName="System.Xml.Linq" targetFramework="net40" />
+    </frameworkAssemblies>
   </metadata>
   <files>
     <file src="bin\$configuration$\Serilog.Sinks.Slack.dll" target="lib\net451" />

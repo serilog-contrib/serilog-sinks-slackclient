@@ -31,13 +31,15 @@ namespace Serilog
         /// </summary>
         /// <param name="loggerConfiguration">The logger configuration.</param>
         /// <param name="channels">List of Slack channels.</param>
+        /// <param name="renderMessageImplementation">Optional delegate to build json to send to slack webhook. By default uses <see cref="RenderMessage"/>.</param>
         /// <param name="restrictedToMinimumLevel">The minimum log event level required in order to write an event to the sink.</param>
-        /// <param name="formatProvider">FormatProvider to apply to <see cref="LogEvent.RenderMessage(IFormatProvider)"/>.</param>
+        /// <param name="formatProvider">FormatProvider to apply in <see cref="LogEvent.RenderMessage(IFormatProvider)"/>. It overrides default behaviour.</param>
         /// <returns>Logger configuration, allowing configuration to continue.</returns>
         /// <exception cref="ArgumentNullException">A required parameter is null.</exception>
         public static LoggerConfiguration Slack(
             this LoggerSinkConfiguration loggerConfiguration,
             SlackChannelCollection channels,
+            SlackSink.RenderMessageMethod renderMessageImplementation = null,
             LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
             IFormatProvider formatProvider = null
         )
@@ -54,6 +56,7 @@ namespace Serilog
             return loggerConfiguration.Sink(
                 new SlackSink(
                     channels,
+                    renderMessageImplementation,
                     formatProvider
                 ),
                 restrictedToMinimumLevel);
@@ -66,7 +69,7 @@ namespace Serilog
         /// <param name="channelId">Slack Channel Id.</param>
         /// <param name="token">Token that allows Slack authentication. To manage tokens go to https://api.slack.com/tokens.</param>
         /// <param name="restrictedToMinimumLevel">The minimum log event level required in order to write an event to the sink.</param>
-        /// <param name="formatProvider">FormatProvider to apply to <see cref="LogEvent.RenderMessage(IFormatProvider)"/>.</param>
+        /// <param name="formatProvider">FormatProvider to apply in <see cref="LogEvent.RenderMessage(IFormatProvider)"/>. It overrides default behaviour.</param>
         /// <returns>Logger configuration, allowing configuration to continue.</returns>
         /// <exception cref="ArgumentNullException">A required parameter is null.</exception>
         public static LoggerConfiguration Slack(
@@ -90,6 +93,39 @@ namespace Serilog
                 new SlackSink(
                     channelId,
                     token,
+                    formatProvider
+                ),
+                restrictedToMinimumLevel);
+        }
+
+        /// <summary>
+        /// Adds a sink that writes log events to a channel in Slack.
+        /// </summary>
+        /// <param name="loggerConfiguration">The logger configuration.</param>
+        /// <param name="webhookUri">WebHook Uri that allows Slack Incoming Webhooks (https://api.slack.com/incoming-webhooks).</param>
+        /// <param name="renderMessageImplementation">Optional delegate to build json to send to slack webhook. By default uses <see cref="RenderMessage"/>.</param>
+        /// <param name="restrictedToMinimumLevel">The minimum log event level required in order to write an event to the sink.</param>
+        /// <param name="formatProvider">FormatProvider to apply in <see cref="LogEvent.RenderMessage(IFormatProvider)"/>. It overrides default behaviour.</param>
+        /// <returns>Logger configuration, allowing configuration to continue.</returns>
+        /// <exception cref="ArgumentNullException">A required parameter is null.</exception>
+        public static LoggerConfiguration Slack(
+            this LoggerSinkConfiguration loggerConfiguration,
+            string webhookUri,
+            SlackSink.RenderMessageMethod renderMessageImplementation = null,
+            LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
+            IFormatProvider formatProvider = null
+        )
+        {
+            if (loggerConfiguration == null)
+                throw new ArgumentNullException("loggerConfiguration");
+
+            if (string.IsNullOrWhiteSpace(webhookUri))
+                throw new ArgumentNullException("webhookUri");
+
+            return loggerConfiguration.Sink(
+                new SlackSink(
+                    webhookUri,
+                    renderMessageImplementation,
                     formatProvider
                 ),
                 restrictedToMinimumLevel);
