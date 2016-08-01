@@ -9,8 +9,9 @@ type ChatPostMessageResponse =
 
 module SlackClient = 
 
-    let internal ChatPostMessageRequest (token:string, channelId:string, msg:string) = ("https://slack.com/api/chat.postMessage?token=" + token + "&channel=" + channelId + "&text=" + msg + "&pretty=1")
+    
+    let internal ChatPostMessageRequest (token:string, channelId:string, msg:string, username:string, iconUrl:string) = ("https://slack.com/api/chat.postMessage?token=" + token + "&channel=" + channelId + "&username=" + username + "&icon_url=" + iconUrl + "&text=" + msg + "&pretty=1")
         
-    let public SendMessage (token:string, channelId:string, message:string) = ChatPostMessageResponse.Load(ChatPostMessageRequest (token, channelId, message))
+    let public SendMessage (token:string, channelId:string, message:string, username:string, iconUrl:string) = ChatPostMessageResponse.Load(ChatPostMessageRequest (token, channelId, message, username, iconUrl))
         
     let public SendMessageViaWebhooks (webhookUri:string, message:string) = Http.RequestString(webhookUri, headers = [ ContentType HttpContentTypes.Json ], body = TextRequest message)
