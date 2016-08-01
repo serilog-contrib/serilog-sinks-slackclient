@@ -101,11 +101,9 @@ namespace Serilog.Sinks.Slack
         /// <param name="webhookUri">WebHook Uri that allows Slack Incoming Webhooks (https://api.slack.com/incoming-webhooks).</param>
         /// <param name="renderMessageImplementation">Optional delegate to build json to send to slack webhook. By default uses <see cref="RenderMessage"/>.</param>
         /// <param name="formatProvider">FormatProvider to apply to <see cref="LogEvent.RenderMessage(IFormatProvider)"/>.</param>
-        /// <param name="username">Optional bot name</param>
-        /// <param name="iconUrl">Optional URL to an image to use as the icon for this message.</param>
         public SlackSink(string webhookUri,
             SlackSink.RenderMessageMethod renderMessageImplementation,
-                               IFormatProvider formatProvider, string username = null, string iconUrl = null)
+                               IFormatProvider formatProvider)
         {
             if (string.IsNullOrWhiteSpace(webhookUri))
                 throw new ArgumentNullException("webhookUri");
@@ -117,9 +115,7 @@ namespace Serilog.Sinks.Slack
 
             if (Channels.Count == 0)
                 SelfLog.WriteLine("There are 0 Slack channels defined. Slack sink will not send messages.");
-
-            _username = username;
-            _iconUrl = iconUrl;
+          
         }
 
         /// <summary>
