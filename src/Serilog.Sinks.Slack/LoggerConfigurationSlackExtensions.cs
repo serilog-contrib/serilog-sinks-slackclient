@@ -34,6 +34,8 @@ namespace Serilog
         /// <param name="renderMessageImplementation">Optional delegate to build json to send to slack webhook. By default uses <see cref="RenderMessage"/>.</param>
         /// <param name="restrictedToMinimumLevel">The minimum log event level required in order to write an event to the sink.</param>
         /// <param name="formatProvider">FormatProvider to apply in <see cref="LogEvent.RenderMessage(IFormatProvider)"/>. It overrides default behaviour.</param>
+        /// <param name="username">Optional bot name</param>
+        /// <param name="iconUrl">Optional URL to an image to use as the icon for this message.</param>
         /// <returns>Logger configuration, allowing configuration to continue.</returns>
         /// <exception cref="ArgumentNullException">A required parameter is null.</exception>
         public static LoggerConfiguration Slack(
@@ -41,7 +43,9 @@ namespace Serilog
             SlackChannelCollection channels,
             SlackSink.RenderMessageMethod renderMessageImplementation = null,
             LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
-            IFormatProvider formatProvider = null
+            IFormatProvider formatProvider = null,
+            string username = null,
+            string iconUrl = null
         )
         {
             if (loggerConfiguration == null)
@@ -57,7 +61,9 @@ namespace Serilog
                 new SlackSink(
                     channels,
                     renderMessageImplementation,
-                    formatProvider
+                    formatProvider,
+                    username,
+                    iconUrl
                 ),
                 restrictedToMinimumLevel);
         }
@@ -70,6 +76,8 @@ namespace Serilog
         /// <param name="token">Token that allows Slack authentication. To manage tokens go to https://api.slack.com/tokens.</param>
         /// <param name="restrictedToMinimumLevel">The minimum log event level required in order to write an event to the sink.</param>
         /// <param name="formatProvider">FormatProvider to apply in <see cref="LogEvent.RenderMessage(IFormatProvider)"/>. It overrides default behaviour.</param>
+        /// <param name="username">Optional bot name</param>
+        /// <param name="iconUrl">Optional URL to an image to use as the icon for this message.</param>
         /// <returns>Logger configuration, allowing configuration to continue.</returns>
         /// <exception cref="ArgumentNullException">A required parameter is null.</exception>
         public static LoggerConfiguration Slack(
@@ -77,7 +85,9 @@ namespace Serilog
             string channelId,
             string token,
             LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
-            IFormatProvider formatProvider = null
+            IFormatProvider formatProvider = null, 
+            string username = null,
+            string iconUrl = null
         )
         {
             if (loggerConfiguration == null)
@@ -93,7 +103,9 @@ namespace Serilog
                 new SlackSink(
                     channelId,
                     token,
-                    formatProvider
+                    formatProvider,
+                    username,
+                    iconUrl
                 ),
                 restrictedToMinimumLevel);
         }
