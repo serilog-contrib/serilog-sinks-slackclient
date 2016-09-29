@@ -12,9 +12,9 @@
     <tags>slack sink serilog logging error</tags>
     <dependencies>
       <dependency id="FSharp.Core" version="4.0.0.1" />
-      <dependency id="FSharp.Data" version="2.2.5" />
-      <dependency id="Serilog" version="1.5.14" />
-      <dependency id="Newtonsoft.Json" version="8.0.3" />
+      <dependency id="FSharp.Data" version="2.3.2" />
+      <dependency id="Serilog" version="2.2.1" />
+      <dependency id="Newtonsoft.Json" version="9.0.1" />
     </dependencies>
     <frameworkAssemblies>
       <frameworkAssembly assemblyName="Microsoft.CSharp" targetFramework="net40" />
