@@ -2,6 +2,7 @@
 // for more guidance on F# programming.
 
 //#r @"../../packages/FSharp.Core.4.0.0.1/lib/net40/FSharp.Core.dll";;
+//#r @"../../packages/FSharp.Core.4.1.0/lib/net40/FSharp.Core.dll";;
 #r @"../../packages/FSharp.Data.2.3.2/lib/net40/FSharp.Data.dll";;
 
 #load "SlackClient.fs"
