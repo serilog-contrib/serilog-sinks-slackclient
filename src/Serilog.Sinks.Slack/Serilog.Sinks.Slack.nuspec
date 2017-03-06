@@ -13,7 +13,7 @@
     <dependencies>
       <dependency id="FSharp.Core" version="4.1.0" />
       <dependency id="FSharp.Data" version="2.3.2" />
-      <dependency id="Serilog" version="2.2.1" />
+      <dependency id="Serilog" version="2.4.0" />
       <dependency id="Newtonsoft.Json" version="9.0.1" />
       <dependency id="System.ValueTuple" version="4.3.0" />
     </dependencies>
