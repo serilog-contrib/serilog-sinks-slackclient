@@ -16,11 +16,15 @@ using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Serilog.Core;
 using Serilog.Debugging;
 using Serilog.Events;
+using Serilog.Sinks.Slack.Core.Sinks.Slack.Client;
 
-namespace Serilog.Sinks.Slack
+namespace Serilog.Sinks.Slack.Core
 {
     /// <summary>
     ///     Writes log events as messages to Slack Channels.
@@ -137,14 +141,7 @@ namespace Serilog.Sinks.Slack
                 // FormatProvider overrides default behaviour
                 var message = (FormatProvider != null) ? logEvent.RenderMessage(FormatProvider) : RenderMessageImplementation(logEvent);
 
-                if (item.UsesWebhooks)
-                {
-                    SendMessageWithWebHooks(item.WebHookUri, message);
-                }
-                else
-                {
-                    SendMessageWithChannelIdAndToken(item.Token, item.ChannelId, message);
-                }
+                SendMessageWithWebHooks(item.WebHookUri, message);
             }
         }
 
@@ -156,31 +153,33 @@ namespace Serilog.Sinks.Slack
             body.text = logEvent.RenderMessage();
             body.attachments = WrapInAttachment(logEvent).ToArray();
 
+            //TODO: migrate to SlackMessage
+            //var slackMassage = new SlackMessage
+            //{
+            //    Text = message,
+            //    //IconEmoji = iconEmoji
+            //    //TODO add more fields!
+            //};
+
             return Newtonsoft.Json.JsonConvert.SerializeObject(body);
         }
-
-        protected void SendMessageWithChannelIdAndToken(string token, string channelId, string message)
-        {
-            SelfLog.WriteLine("Trying to send message to channelId '{0}' with token '{1}': '{2}'.", channelId, token, message);
-
-            //var sendMessageResult = SlackClient.SlackClient.SendMessage(token, channelId, message, _username, _iconUrl);
-            //if (sendMessageResult != null)
-            //{
-            //    SelfLog.WriteLine("Message sent to channelId '{0}' with token '{1}': '{2}'.", channelId, token, sendMessageResult.JsonValue.ToString());
-            //}
-        }
-
+        
         protected void SendMessageWithWebHooks(string webhookUri, string message)
         {
             SelfLog.WriteLine("Trying to send message to webhook '{0}': '{1}'.", webhookUri, message);
 
-            if (message != null)
+            if (!string.IsNullOrWhiteSpace(message))
             {
-                //var sendMessageResult = SlackClient.SlackClient.SendMessageViaWebhooks(webhookUri, message);
-                //if (sendMessageResult != null)
-                //{
-                //    SelfLog.WriteLine("Message sent to webhook '{0}': '{1}'.", webhookUri, sendMessageResult);
-                //}
+                var slackClient = new SlackClient(webhookUri, 25);
+
+                var sendMessageTask = slackClient.PostAsync(message);
+                Task.WaitAll(sendMessageTask);
+
+                var sendMessageResult = sendMessageTask.Result;
+                if (sendMessageResult != null)
+                {
+                    SelfLog.WriteLine("Message sent to webhook '{0}': '{1}'.", webhookUri, sendMessageResult.StatusCode);
+                }
             }
         }
 

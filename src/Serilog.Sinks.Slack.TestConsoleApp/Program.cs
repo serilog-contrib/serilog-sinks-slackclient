@@ -8,7 +8,7 @@ namespace Serilog.Sinks.Slack.TestConsoleApp
         {
             var log = new LoggerConfiguration()
                 .MinimumLevel.Verbose()
-                //.WriteTo.Slack("XXXXXXXXXX", "yyyy-13773446566-12344567-12344567-23rf23rf23r", LevelAlias.Maximum)
+                //.WriteTo.Slack("C0W6DD7LZ", "xoxp-13773446566-13774642576-72300718082-1d35369b22", LevelAlias.Maximum)
                 .WriteTo.Slack("https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX"
                 //,(LogEvent l) => l.RenderMessage()
                 )

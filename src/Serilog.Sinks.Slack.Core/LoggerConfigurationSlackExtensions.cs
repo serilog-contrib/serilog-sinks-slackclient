@@ -1,8 +1,6 @@
-﻿
-using System;
+﻿using System;
 using Serilog.Configuration;
 using Serilog.Events;
-
 // Copyright 2014 Serilog Contributors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,10 +14,8 @@ using Serilog.Events;
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-using Serilog.Sinks.Slack;
-using SlackChannelCollection = Serilog.Sinks.Slack.SlackChannelCollection;
 
-namespace Serilog
+namespace Serilog.Sinks.Slack.Core
 {
     /// <summary>
     /// Adds the WriteTo.MSSqlServer() extension method to <see cref="LoggerConfiguration"/>.
@@ -38,35 +34,35 @@ namespace Serilog
         /// <param name="iconUrl">Optional URL to an image to use as the icon for this message.</param>
         /// <returns>Logger configuration, allowing configuration to continue.</returns>
         /// <exception cref="ArgumentNullException">A required parameter is null.</exception>
-        public static LoggerConfiguration Slack(
-            this LoggerSinkConfiguration loggerConfiguration,
-            SlackChannelCollection channels,
-            SlackSink.RenderMessageMethod renderMessageImplementation = null,
-            LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
-            IFormatProvider formatProvider = null,
-            string username = null,
-            string iconUrl = null
-        )
-        {
-            if (loggerConfiguration == null)
-                throw new ArgumentNullException("loggerConfiguration");
+        //public static LoggerConfiguration Slack(
+        //    this LoggerSinkConfiguration loggerConfiguration,
+        //    SlackChannelCollection channels,
+        //    SlackSink.RenderMessageMethod renderMessageImplementation = null,
+        //    LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
+        //    IFormatProvider formatProvider = null,
+        //    string username = null,
+        //    string iconUrl = null
+        //)
+        //{
+        //    if (loggerConfiguration == null)
+        //        throw new ArgumentNullException("loggerConfiguration");
 
-            if (channels == null)
-                throw new ArgumentNullException("channels");
+        //    if (channels == null)
+        //        throw new ArgumentNullException("channels");
 
-            if (channels.Count == 0)
-                throw new ArgumentException("Must have at least one Slack channel defined.");
+        //    if (channels.Count == 0)
+        //        throw new ArgumentException("Must have at least one Slack channel defined.");
 
-            return loggerConfiguration.Sink(
-                new SlackSink(
-                    channels,
-                    renderMessageImplementation,
-                    formatProvider,
-                    username,
-                    iconUrl
-                ),
-                restrictedToMinimumLevel);
-        }
+        //    return loggerConfiguration.Sink(
+        //        new SlackSink(
+        //            channels,
+        //            renderMessageImplementation,
+        //            formatProvider,
+        //            username,
+        //            iconUrl
+        //        ),
+        //        restrictedToMinimumLevel);
+        //}
 
         /// <summary>
         /// Adds a sink that writes log events to a channel in Slack.
@@ -80,35 +76,35 @@ namespace Serilog
         /// <param name="iconUrl">Optional URL to an image to use as the icon for this message.</param>
         /// <returns>Logger configuration, allowing configuration to continue.</returns>
         /// <exception cref="ArgumentNullException">A required parameter is null.</exception>
-        public static LoggerConfiguration Slack(
-            this LoggerSinkConfiguration loggerConfiguration,
-            string channelId,
-            string token,
-            LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
-            IFormatProvider formatProvider = null, 
-            string username = null,
-            string iconUrl = null
-        )
-        {
-            if (loggerConfiguration == null)
-                throw new ArgumentNullException("loggerConfiguration");
+        //public static LoggerConfiguration Slack(
+        //    this LoggerSinkConfiguration loggerConfiguration,
+        //    string channelId,
+        //    string token,
+        //    LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
+        //    IFormatProvider formatProvider = null, 
+        //    string username = null,
+        //    string iconUrl = null
+        //)
+        //{
+        //    if (loggerConfiguration == null)
+        //        throw new ArgumentNullException("loggerConfiguration");
 
-            if (string.IsNullOrWhiteSpace(channelId))
-                throw new ArgumentNullException("channelId");
+        //    if (string.IsNullOrWhiteSpace(channelId))
+        //        throw new ArgumentNullException("channelId");
 
-            if (string.IsNullOrWhiteSpace(token))
-                throw new ArgumentNullException("token");
+        //    if (string.IsNullOrWhiteSpace(token))
+        //        throw new ArgumentNullException("token");
 
-            return loggerConfiguration.Sink(
-                new SlackSink(
-                    channelId,
-                    token,
-                    formatProvider,
-                    username,
-                    iconUrl
-                ),
-                restrictedToMinimumLevel);
-        }
+        //    return loggerConfiguration.Sink(
+        //        new SlackSink(
+        //            channelId,
+        //            token,
+        //            formatProvider,
+        //            username,
+        //            iconUrl
+        //        ),
+        //        restrictedToMinimumLevel);
+        //}
 
         /// <summary>
         /// Adds a sink that writes log events to a channel in Slack.

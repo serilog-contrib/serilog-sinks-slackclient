@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Serilog.Sinks.Slack.Core</id>
+    <version>$version$</version>
+    <authors>https://github.com/marcio-azevedo/</authors>
+    <description>A Slack Sink for Serilog (for .Net Core).</description>
+    <language>en-US</language>
+    <projectUrl>http://serilog.net</projectUrl>
+    <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+    <iconUrl>http://serilog.net/images/serilog-sink-nuget.png</iconUrl>
+    <tags>slack sink serilog logging error dot net core standard</tags>
+    <dependencies>
+      <dependency id="NETStandard.Library" version="1.6.1" />
+      <dependency id="Newtonsoft.Json" version="9.0.1" />
+      <dependency id="Serilog" version="2.4.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\$configuration$\netstandard1.6\Serilog.Sinks.Slack.Core.dll" target="lib\netstandard1.6\Serilog.Sinks.Slack.Core.dll" />
+  </files>
+</package>
