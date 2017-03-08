@@ -1,4 +1,4 @@
-version: 1.0.{build}
+ersion: 1.0.{build}
 pull_requests:
   do_not_increment_build_number: true
 branches:
@@ -14,10 +14,13 @@ before_build:
     nuget restore -verbosity detailed
 
     appveyor-retry nuget restore
+
+    dotnet restore
 build:
   publish_nuget: true
   publish_nuget_symbols: true
   include_nuget_references: true
+  parallel: true
   verbosity: minimal
 test: off
 deploy:
