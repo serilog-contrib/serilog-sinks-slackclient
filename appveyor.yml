@@ -22,6 +22,8 @@ build:
   include_nuget_references: true
   parallel: true
   verbosity: minimal
+after_build:
+- cmd: dotnet pack ./src/Serilog.Sinks.Slack.Core/ --output nupkgs
 test: off
 deploy:
 - provider: NuGet
