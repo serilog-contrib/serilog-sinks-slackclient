@@ -25,6 +25,9 @@ build:
 after_build:
 - cmd: dotnet pack ./src/Serilog.Sinks.Slack.Core/ --output nupkgs
 test: off
+artifacts:
+- path: '\nupkgs\Serilog.Sinks.Slack.Core.*.nupkg'
+  name: Publish NuGet
 deploy:
 - provider: NuGet
   api_key:
