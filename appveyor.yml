@@ -27,7 +27,7 @@ after_build:
 test: off
 artifacts:
 - path: '\nupkgs\Serilog.Sinks.Slack.Core.*.nupkg'
-  name: Publish NuGet
+  name: NuGet
 deploy:
 - provider: NuGet
   api_key:
@@ -35,7 +35,8 @@ deploy:
   skip_symbols: true
 notifications:
 - provider: Slack
-  incoming_webhook: https://hooks.slack.com/services/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
+  incoming_webhook:
+    secure: FgB39fbzhvs/r/8gzaohtkaZRVB/UPV9a2lI80V+ZjgvB19qih716qcKbuZGBDgIzFfkBXxSVjNqbc3tUXt07fbOoBPNWsVtijXpr4+BIF4=
   on_build_success: false
   on_build_failure: true
   on_build_status_changed: true

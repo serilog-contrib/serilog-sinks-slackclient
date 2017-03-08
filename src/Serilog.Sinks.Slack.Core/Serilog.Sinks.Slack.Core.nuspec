@@ -7,7 +7,7 @@
     <description>A Slack Sink for Serilog (for .Net Core).</description>
     <language>en-US</language>
     <projectUrl>http://serilog.net</projectUrl>
-    <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+    <licenseUrl>https://github.com/marcio-azevedo/serilog-sinks-slack/blob/master/LICENSE</licenseUrl>
     <iconUrl>http://serilog.net/images/serilog-sink-nuget.png</iconUrl>
     <tags>slack sink serilog logging error dot net core standard</tags>
     <dependencies>

@@ -1,5 +1,9 @@
 {
   "version": "0.1.0-beta",
+  "packOptions": {
+    "licenseUrl": "https://github.com/marcio-azevedo/serilog-sinks-slack/blob/master/LICENSE",
+    "projectUrl": "https://github.com/marcio-azevedo/serilog-sinks-slack"
+  },
 
   "dependencies": {
     "NETStandard.Library": "1.6.1",
