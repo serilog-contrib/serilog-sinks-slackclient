@@ -39,4 +39,4 @@ notifications:
     secure: FgB39fbzhvs/r/8gzaohtkaZRVB/UPV9a2lI80V+ZjgvB19qih716qcKbuZGBDgIzFfkBXxSVjNqbc3tUXt07fbOoBPNWsVtijXpr4+BIF4=
   on_build_success: false
   on_build_failure: true
-  on_build_status_changed: true
+  on_build_status_changed: false
