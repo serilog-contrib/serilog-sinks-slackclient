@@ -11,6 +11,8 @@ A Serilog sink that writes events as messages to [Slack](https://slack.com). Sla
 **Package** - [Serilog.Sinks.SlackClient](https://www.nuget.org/packages/Serilog.Sinks.SlackClient/)
 | **Platforms** - .NET 4.5.1
 
+## Contributors needed! ##
+
 **.NET Core now supported** - Just download this package [![NuGet Version](https://img.shields.io/nuget/v/Serilog.Sinks.Slack.Core.svg?style=flat)](https://www.nuget.org/packages/Serilog.Sinks.Slack.Core/) (only incoming webhooks are supported in this package)
 
 You'll need to have a Channel Id and a Token on your Slack team to be able to send messages. To manage tokens go to [Slack Tokens](https://api.slack.com/tokens/). In the example shown, the Channel Id in use is `XXXXXXXXX` and the token is `yyyyyyyyyyyy`.
