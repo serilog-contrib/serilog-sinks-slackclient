@@ -1,8 +1,6 @@
 ﻿namespace Serilog.Sinks.Slack.Core.Sinks.Slack.Client
-
 {
     public static class Emoji
-
     {
         public static string PlusOne { get { return ":+1:"; } }
         public static string MinusOne { get { return ":-1:"; } }
@@ -885,7 +883,5 @@
         public static string Zap { get { return ":zap:"; } }
         public static string Zero { get { return ":zero:"; } }
         public static string Zzz { get { return ":zzz:"; } }
-
-
     }
 }

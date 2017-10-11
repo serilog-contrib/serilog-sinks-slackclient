@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssemblyName>Serilog.Sinks.Slack.Core.TestConsoleApp</AssemblyName>
+    <OutputType>Exe</OutputType>
+    <PackageId>Serilog.Sinks.Slack.Core.TestConsoleApp</PackageId>
+    <RuntimeIdentifiers>win10-x64</RuntimeIdentifiers>
+    <RuntimeFrameworkVersion>2.0.0</RuntimeFrameworkVersion>
+    <NetStandardImplicitPackageVersion>2.0.1</NetStandardImplicitPackageVersion>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../Serilog.Sinks.Slack.Core/Serilog.Sinks.Slack.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="Serilog" Version="2.5.0" />
+  </ItemGroup>
+
+</Project>

@@ -53,28 +53,25 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <None Include="Script.fsx" />
-    <Content Include="packages.config" />
     <Compile Include="SlackClient.fs" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="FSharp.Core">
-      <HintPath>..\..\packages\FSharp.Core.4.1.0\lib\net40\FSharp.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="FSharp.Data">
-      <HintPath>..\..\packages\FSharp.Data.2.3.2\lib\net40\FSharp.Data.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net" />
     <Reference Include="System.Numerics" />
-    <Reference Include="System.ValueTuple">
-      <HintPath>..\..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="FSharp.Core">
+      <HintPath>..\..\packages\FSharp.Core.4.2.3\lib\net45\FSharp.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="FSharp.Data">
+      <HintPath>..\..\packages\FSharp.Data.2.4.2\lib\net45\FSharp.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple">
+      <HintPath>..\..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

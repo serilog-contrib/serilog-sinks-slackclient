@@ -52,6 +52,11 @@ namespace Serilog.Sinks.Slack.Core
         private readonly string _iconUrl;
 
         /// <summary>
+        /// Icon emoji.
+        /// </summary>
+        private readonly string _iconEmoji;
+
+        /// <summary>
         ///     Construct a sink posting to the specified Slack Channel.
         /// </summary>
         /// <param name="channelId">Slack Channel Id.</param>
@@ -60,7 +65,9 @@ namespace Serilog.Sinks.Slack.Core
         /// <param name="username">Optional bot name</param>
         /// <param name="iconUrl">Optional URL to an image to use as the icon for this message.</param>
         public SlackSink(string channelId, string token,
-                               IFormatProvider formatProvider, string username = null, string iconUrl = null)
+                         IFormatProvider formatProvider,
+                         string username = null, 
+                         string iconUrl = null)
         {
             if (string.IsNullOrWhiteSpace(channelId))
                 throw new ArgumentNullException("channelId");
@@ -106,16 +113,19 @@ namespace Serilog.Sinks.Slack.Core
         /// <param name="renderMessageImplementation">Optional delegate to build json to send to slack webhook. By default uses <see cref="RenderMessage"/>.</param>
         /// <param name="formatProvider">FormatProvider to apply to <see cref="LogEvent.RenderMessage(IFormatProvider)"/>.</param>
         public SlackSink(string webhookUri,
-            SlackSink.RenderMessageMethod renderMessageImplementation,
-                               IFormatProvider formatProvider)
+                         SlackSink.RenderMessageMethod renderMessageImplementation,
+                         IFormatProvider formatProvider,
+                         string username,
+                         string iconEmoji)
         {
             if (string.IsNullOrWhiteSpace(webhookUri))
-                throw new ArgumentNullException("webhookUri");
-
+                throw new ArgumentNullException(nameof(webhookUri));
+            
             FormatProvider = formatProvider;
             Channels.Add(new SlackChannel(webhookUri));
             RenderMessageImplementation = renderMessageImplementation ?? RenderMessage;
-            ;
+            _username = username;
+            _iconEmoji = iconEmoji;
 
             if (Channels.Count == 0)
                 SelfLog.WriteLine("There are 0 Slack channels defined. Slack sink will not send messages.");
@@ -125,7 +135,7 @@ namespace Serilog.Sinks.Slack.Core
         /// <summary>
         /// Delegate to allow overriding of the RenderMessage method.
         /// </summary>
-        public delegate string RenderMessageMethod(LogEvent input);
+        public delegate string RenderMessageMethod(LogEvent input, string username, string iconEmoji);
 
         /// <summary>
         /// RenderMessage method that will transform LogEvent into a Slack message.
@@ -139,7 +149,7 @@ namespace Serilog.Sinks.Slack.Core
             foreach (var item in Channels)
             {
                 // FormatProvider overrides default behaviour
-                var message = (FormatProvider != null) ? logEvent.RenderMessage(FormatProvider) : RenderMessageImplementation(logEvent);
+                var message = (FormatProvider != null) ? logEvent.RenderMessage(FormatProvider) : RenderMessageImplementation(logEvent, _username, _iconEmoji);
 
                 SendMessageWithWebHooks(item.WebHookUri, message);
             }
@@ -147,18 +157,34 @@ namespace Serilog.Sinks.Slack.Core
 
         #endregion
 
-        protected static string RenderMessage(LogEvent logEvent)
+        protected static string RenderMessage(LogEvent logEvent, string username, string iconEmoji)
         {
             dynamic body = new ExpandoObject();
             body.text = logEvent.RenderMessage();
+
+            if (!string.IsNullOrWhiteSpace(username))
+            {
+                body.username = username;
+            }
+
+            if (!string.IsNullOrWhiteSpace(iconEmoji))
+            {
+                body.icon_emoji = iconEmoji;
+            }
+
             body.attachments = WrapInAttachment(logEvent).ToArray();
 
-            //TODO: migrate to SlackMessage
+            // TODO: Move to Slack Message
             //var slackMassage = new SlackMessage
             //{
-            //    Text = message,
-            //    //IconEmoji = iconEmoji
-            //    //TODO add more fields!
+            //    Text = logEvent.RenderMessage(),
+            //    IconEmoji = iconEmoji,
+            //    Username = username,
+            //    Attachments = new List<SlackAttachment>
+            //    {
+            //        new SlackAttachment {
+            //        }
+            //    }
             //};
 
             return Newtonsoft.Json.JsonConvert.SerializeObject(body);

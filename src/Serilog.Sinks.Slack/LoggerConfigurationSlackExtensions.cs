@@ -49,10 +49,10 @@ namespace Serilog
         )
         {
             if (loggerConfiguration == null)
-                throw new ArgumentNullException("loggerConfiguration");
+                throw new ArgumentNullException(nameof(loggerConfiguration));
 
             if (channels == null)
-                throw new ArgumentNullException("channels");
+                throw new ArgumentNullException(nameof(channels));
 
             if (channels.Count == 0)
                 throw new ArgumentException("Must have at least one Slack channel defined.");

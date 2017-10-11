@@ -59,10 +59,10 @@ namespace Serilog.Sinks.Slack
                                IFormatProvider formatProvider, string username = null, string iconUrl = null)
         {
             if (string.IsNullOrWhiteSpace(channelId))
-                throw new ArgumentNullException("channelId");
+                throw new ArgumentNullException(nameof(channelId));
 
             if (string.IsNullOrWhiteSpace(token))
-                throw new ArgumentNullException("token");
+                throw new ArgumentNullException(nameof(token));
 
             FormatProvider = formatProvider;
             Channels.Add(new SlackChannel(channelId, token));
@@ -83,7 +83,7 @@ namespace Serilog.Sinks.Slack
                                IFormatProvider formatProvider, string username = null, string iconUrl = null)
         {
             if (channels == null)
-                throw new ArgumentNullException("channels");
+                throw new ArgumentNullException(nameof(channels));
 
             FormatProvider = formatProvider;
             Channels = channels;
@@ -111,7 +111,6 @@ namespace Serilog.Sinks.Slack
             FormatProvider = formatProvider;
             Channels.Add(new SlackChannel(webhookUri));
             RenderMessageImplementation = renderMessageImplementation ?? RenderMessage;
-            ;
 
             if (Channels.Count == 0)
                 SelfLog.WriteLine("There are 0 Slack channels defined. Slack sink will not send messages.");
