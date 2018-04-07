@@ -9,6 +9,7 @@
 A Serilog sink that writes events as messages to [Slack](https://slack.com). Slack client was developed in [F#](http://fsharp.org/).
 
 **Package** - [Serilog.Sinks.SlackClient](https://www.nuget.org/packages/Serilog.Sinks.SlackClient/) | **Platform** - .NET 4.5.1
+
 **Package** - [Serilog.Sinks.Slack.Core](https://www.nuget.org/packages/Serilog.Sinks.Slack.Core/) | **Platform** - .NET Standard 2.0.1
 
 ### Contributors needed! ###
