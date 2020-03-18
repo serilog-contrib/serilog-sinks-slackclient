@@ -1,6 +1,6 @@
 # Serilog.Sinks.Slack
 
-## Contributors are very welcome ##
+### Contributors needed! ###
 
 ----------
 
@@ -14,7 +14,6 @@ A Serilog sink that writes events as messages to [Slack](https://slack.com). Sla
 
 **Package** - [Serilog.Sinks.Slack.Core](https://www.nuget.org/packages/Serilog.Sinks.Slack.Core/) | **Platform** - .NET Standard 2.0.1
 
-### Contributors needed! ###
 
 **.NET Core now supported** - Just download this package [![NuGet Version](https://img.shields.io/nuget/v/Serilog.Sinks.Slack.Core.svg?style=flat)](https://www.nuget.org/packages/Serilog.Sinks.Slack.Core/) (only incoming webhooks are supported in this package)
 
