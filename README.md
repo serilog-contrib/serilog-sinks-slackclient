@@ -1,5 +1,7 @@
 # Serilog.Sinks.Slack
 
+## Contributors are very welcome ##
+
 ----------
 
 [![Build status](https://ci.appveyor.com/api/projects/status/x87gr2jgnjvow6oo/branch/master?svg=true)](https://ci.appveyor.com/project/marcio-azevedo/serilog-sinks-slack/branch/master)
